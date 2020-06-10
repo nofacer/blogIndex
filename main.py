@@ -9,10 +9,14 @@ def get_token(file_path='token.txt'):
     return token
 
 
-def clone_repo(git_url: str, dest_dir: str):
+def recreate_folder(dest_dir):
     if os.path.exists(dest_dir):
         shutil.rmtree(dest_dir)
     os.mkdir(dest_dir)
+
+
+def clone_repo(git_url: str, dest_dir: str):
+    recreate_folder(dest_dir)
     Repo.clone_from(git_url, dest_dir)
 
 
