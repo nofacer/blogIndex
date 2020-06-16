@@ -20,15 +20,30 @@ spec:
         - containerPort: 8080
         env:
           - name: dest_dir
-            value: "/tmp/test"
+            valueFrom:
+              configMapKeyRef:
+                name: blog-index-config
+                key: dest_dir
           - name: git_user
-            value: "nofacer"
+            valueFrom:
+              configMapKeyRef:
+                name: blog-index-config
+                key: git_user
           - name: repo_name
-            value: "blog.articles"
+            valueFrom:
+              configMapKeyRef:
+                name: blog-index-config
+                key: repo_name
           - name: is_public
-            value: "False"
+            valueFrom:
+              configMapKeyRef:
+                name: blog-index-config
+                key: is_public
           - name: output_path
-            value: "/tmp/test"
+            valueFrom:
+              configMapKeyRef:
+                name: blog-index-config
+                key: output_path
           - name: git_token
             valueFrom:
               secretKeyRef:
@@ -60,3 +75,14 @@ spec:
           backend:
             serviceName: blog-index
             servicePort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blog-index-config
+data:
+  dest_dir: "/tmp/test"
+  git_user: "nofacer"
+  repo_name: "blog.articles"
+  is_public: "False"
+  output_path: "/tmp/test"
