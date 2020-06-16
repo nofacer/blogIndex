@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-index
+spec:
+  selector:
+    matchLabels:
+      app: blog-index
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: blog-index
+    spec:
+      containers:
+      - name: blog-index
+        image: dustni/blogindex
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+          - name: dest_dir
+            value: "/tmp/test"
+          - name: git_user
+            value: "nofacer"
+          - name: repo_name
+            value: "blog.articles"
+          - name: is_public
+            value: "False"
+          - name: output_path
+            value: "/tmp/test"
+          - name: git_token
+            valueFrom:
+              secretKeyRef:
+                name: "git-token"
+                key: token
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-index
+spec:
+  selector:
+    app: blog-index
+  ports:
+  - port: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: blog-index-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+        - path: /index
+          pathType: Prefix
+          backend:
+            serviceName: blog-index
+            servicePort: 8080
