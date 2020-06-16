@@ -1,10 +1,10 @@
 import sqlite3
 import shutil
 import os
+from Constant import OUTPUT_PATH
 
-output_path = os.environ.get('output_path', './')
-db_file = os.path.join(output_path, 'blog.db')
-db_backup_file = os.path.join(output_path, 'blog.db.back')
+db_file = os.path.join(OUTPUT_PATH, 'blog.db')
+db_backup_file = os.path.join(OUTPUT_PATH, 'blog.db.back')
 
 
 def create_new_database():
