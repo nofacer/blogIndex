@@ -12,12 +12,19 @@ spec:
       labels:
         app: blog-index
     spec:
+      volumes:
+      - name: task-pv-storage
+        persistentVolumeClaim:
+          claimName: blog-index-pvc
       containers:
       - name: blog-index
         image: dustni/blogindex
         imagePullPolicy: Always
         ports:
-        - containerPort: 8080
+          - containerPort: 8080
+        volumeMounts:
+          - mountPath: "/tmp/data/"
+            name: task-pv-storage
         env:
           - name: dest_dir
             valueFrom:
@@ -86,3 +93,30 @@ data:
   repo_name: "blog.articles"
   is_public: "False"
   output_path: "/tmp/test"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: blog-index-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 128Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/blog"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: blog-index-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 128Mi
