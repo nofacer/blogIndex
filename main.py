@@ -12,7 +12,7 @@ def hello():
     return {'message': 'hello world'}, 200
 
 
-@app.route('/index', methods=['POST'])
+@app.route('/', methods=['POST'])
 def index_articles():
     index()
     return {'message': 'index articles successfully'}, 200
