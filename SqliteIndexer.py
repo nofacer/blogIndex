@@ -4,8 +4,9 @@ import os
 
 
 def create_new_database():
-    shutil.copy('blog.db', 'blog.db.back')
-    os.remove('blog.db')
+    if os.path.exists('blog.db'):
+        shutil.copy('blog.db', 'blog.db.back')
+        os.remove('blog.db')
     create_db()
 
 
