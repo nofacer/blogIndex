@@ -1,5 +1,12 @@
 from git import Repo
-from utils import recreate_folder
+import os
+import shutil
+
+
+def recreate_folder(target_dir: str) -> None:
+    if os.path.exists(target_dir):
+        shutil.rmtree(target_dir)
+    os.mkdir(target_dir)
 
 
 class Downloader:
