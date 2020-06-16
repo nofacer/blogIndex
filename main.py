@@ -2,6 +2,7 @@ from SqliteIndexer import *
 from Downloader import Downloader
 from Parser import parse
 from flask import Flask
+import os
 
 app = Flask(__name__)
 
@@ -18,10 +19,10 @@ def index_articles():
 
 
 def index():
-    DEST_DIR = 'download'
-    GIT_USER = 'nofacer'
-    REPO_NAME = 'blog.articles'
-    IS_PUBLIC = False
+    DEST_DIR = os.environ.get('dest_dir')
+    GIT_USER = os.environ.get('git_user')
+    REPO_NAME = os.environ.get('repo_name')
+    IS_PUBLIC = (os.environ.get('is_public') == str(True))
 
     downloader = Downloader()
     downloader.clone_repo(GIT_USER, REPO_NAME, DEST_DIR, IS_PUBLIC)

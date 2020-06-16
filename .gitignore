@@ -4,3 +4,4 @@ venv
 .idea
 blog.db
 blog.db.back
+.envrc
