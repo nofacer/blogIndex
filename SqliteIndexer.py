@@ -2,16 +2,20 @@ import sqlite3
 import shutil
 import os
 
+output_path = os.environ.get('output_path', './')
+db_file = os.path.join(output_path, 'blog.db')
+db_backup_file = os.path.join(output_path, 'blog.db.back')
+
 
 def create_new_database():
-    if os.path.exists('blog.db'):
-        shutil.copy('blog.db', 'blog.db.back')
-        os.remove('blog.db')
+    if os.path.exists(db_file):
+        shutil.copy(db_file, db_backup_file)
+        os.remove(db_file)
     create_db()
 
 
 def create_db():
-    conn = sqlite3.connect('blog.db')
+    conn = sqlite3.connect(db_file)
     c = conn.cursor()
     c.execute('''
     CREATE TABLE IF NOT EXISTS BLOG(
@@ -30,7 +34,7 @@ def create_db():
 
 
 def insert_data(metadata, content):
-    conn = sqlite3.connect('blog.db')
+    conn = sqlite3.connect(db_file)
     c = conn.cursor()
     c.execute("INSERT INTO BLOG (TITLE,SUBTITLE,DATE,CATEGORIES,COVER,TAGS,CONTENT) \
           VALUES (?,?,?,?,?,?,?)", (metadata['title'][0],
