@@ -18,3 +18,16 @@ jobs:
         password: ${{ secrets.DOCKER_TOKEN }}
         repository: dustni/blogindex
         tags: latest
+    - name: deploy to cluster
+      uses: steebchen/kubectl@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        args: set image --record deployment/blog-index -n blog-indexer blog-index=dustni/blogindex:latest
+    - name: verify deployment
+      uses: steebchen/kubectl@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        KUBECTL_VERSION: "1.15"
+      with:
+        args: '"rollout status deployment/blog-index -n blog-indexer"'
