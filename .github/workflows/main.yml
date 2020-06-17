@@ -17,7 +17,7 @@ jobs:
         username: dustni
         password: ${{ secrets.DOCKER_TOKEN }}
         repository: dustni/blogindex
-        tag_with_sha: true
+        tags: ${{ github.sha }}
     - name: deploy to cluster
       uses: steebchen/kubectl@master
       env:
