@@ -17,13 +17,13 @@ jobs:
         username: dustni
         password: ${{ secrets.DOCKER_TOKEN }}
         repository: dustni/blogindex
-        tags: latest
+        tag_with_sha: true
     - name: deploy to cluster
       uses: steebchen/kubectl@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        args: set image --record deployment/blog-index -n blog-indexer blog-index=dustni/blogindex:latest
+        args: set image --record deployment/blog-index -n blog-indexer blog-index=dustni/blogindex:${{ github.sha }}
     - name: verify deployment
       uses: steebchen/kubectl@master
       env:
