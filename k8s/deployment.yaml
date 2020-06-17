@@ -23,7 +23,7 @@ spec:
         ports:
           - containerPort: 8080
         volumeMounts:
-          - mountPath: "/blog"
+          - mountPath: "/pvc/blog"
             name: task-pv-storage
         env:
           - name: dest_dir
@@ -88,11 +88,11 @@ kind: ConfigMap
 metadata:
   name: blog-index-config
 data:
-  dest_dir: "/blog"
+  dest_dir: "/pvc/blog/download"
   git_user: "nofacer"
   repo_name: "blog.articles"
   is_public: "False"
-  output_path: "/blog"
+  output_path: "/pvc/blog"
 ---
 apiVersion: v1
 kind: PersistentVolume
