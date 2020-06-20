@@ -108,7 +108,7 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 128Mi
+    storage: 512Mi
   accessModes:
     - ReadWriteOnce
   hostPath:
