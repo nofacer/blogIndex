@@ -1,4 +1,4 @@
-from SqliteIndexer import *
+from SqliteIndexer import create_new_database, insert_data
 from Downloader import clone_repo
 from Parser import parse
 from flask import Flask
