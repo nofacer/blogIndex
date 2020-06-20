@@ -98,37 +98,3 @@ data:
   repo_name: "blog.articles"
   is_public: "False"
   output_path: "/pvc/blog"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: blog-index-pv
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 512Mi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/blog"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: blog-index-pvc
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 128Mi
----
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: manual
-provisioner: kubernetes.io/no-provisioner
-volumeBindingMode: WaitForFirstConsumer

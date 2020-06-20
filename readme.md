@@ -4,3 +4,5 @@
 microk8s enable ingress storage dns
 ```
 * Github上要配两个Secret：`DOCKER_TOKEN`和`KUBE_CONFIG_DATA`
+
+Apply pv.yaml and secret.yaml mannually
